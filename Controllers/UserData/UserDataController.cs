@@ -21,7 +21,7 @@ namespace ASP.Net_MVC_Firebase.Controllers.UserData
 
         public readonly IFirebaseClient client;
 
-        public UserDataController()
+        public  UserDataController()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace ASP.Net_MVC_Firebase.Controllers.UserData
         public async Task<IActionResult> CreateUserData([FromQuery(Name = "uid")] string uid)
         {
             // PlayerId를 위한 고유한 랜덤 수 생성
-            ulong playerId = GenerateUniquePlayerId();
+            ulong playerId = GenerateUniquePlayerId();  
 
             UserServerData data = new UserServerData
             {
@@ -79,9 +79,9 @@ namespace ASP.Net_MVC_Firebase.Controllers.UserData
             return Ok(userData);
         }
 
-        [HttpPut("UpdateUserData/{uid}")]
-        public async Task<IActionResult> UpdateUserData([FromRoute] string uid, [FromBody] UserServerData updatedData)
-        { 
+        [HttpPut("UpdateUserData")]
+        public async Task<IActionResult> UpdateUserData([FromQuery(Name = "uid")] string uid, [FromBody] UserServerData updatedData)
+        {
             UserServerData newData = new()
             {
                 UserName = updatedData.UserName,
@@ -92,7 +92,7 @@ namespace ASP.Net_MVC_Firebase.Controllers.UserData
 
             // Firebase에 데이터 업데이트
             var setRes = await client.UpdateAsync($"UserData/{uid}", updatedData);
-              
+
             if (setRes.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return Ok("유저 데이터가 성공적으로 업데이트되었습니다.");
@@ -102,17 +102,12 @@ namespace ASP.Net_MVC_Firebase.Controllers.UserData
             return StatusCode((int)setRes.StatusCode, "유저 데이터를 업데이트할 수 없습니다.");
         }
 
-
-
-
-
         private ulong GenerateUniquePlayerId()
         {
             // 예: 고유한 ID를 위한 랜덤한 ulong 생성
             Random random = new Random();
             return (ulong)(random.NextInt64(1, long.MaxValue)); // long.MaxValue 미만의 랜덤한 숫자 생성
         }
-
 
     } //end class
 }

@@ -13,7 +13,7 @@ namespace ASP.Net_MVC_Firebase
 			builder.Services.AddControllersWithViews();
 
             //Google 이외의 환경에서 초기화할 때
-            var firebaseApp = FirebaseApp.Create(new AppOptions()
+            var firebaseApp = FirebaseApp.Create(new AppOptions()	
             {
                 Credential = GoogleCredential.FromFile(@"D:\GitHub\ASP.Net MVC-Firebase\wwwroot\project-servergame-firebase-adminsdk-umeje-31335b9b38.json"),
                 ProjectId = builder.Configuration["project -servergame"],

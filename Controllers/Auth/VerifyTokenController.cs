@@ -12,10 +12,7 @@ namespace ASP.Net_MVC_Firebase.Controllers.Auth
         // FirebaseApp 초기화
         private readonly FirebaseApp _firebaseApp;
 
-        public AuthController()
-        {
-
-        }
+        public AuthController() { }
 
         [HttpGet("verifyToken")]
         public async Task<IActionResult> VerifyToken()
